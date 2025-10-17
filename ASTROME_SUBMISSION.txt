@@ -2,7 +2,7 @@
 RF OUTDOOR LINK PLANNER TOOL - ASTROME ASSESSMENT SUBMISSION
 ================================================================
 
-CANDIDATE: Assessment Bot
+CANDIDATE: Harshit Tiwary
 DATE: October 17, 2025
 REPOSITORY: https://github.com/harshit-pmx/RF_Outdoor_Link_Planner_Tool
 BRANCH: assessment/ready
@@ -36,7 +36,7 @@ DELIVERABLES CHECKLIST
    Status: Ready for deployment
 
 ✅ 4. Live Demo URL
-   [TO BE UPDATED AFTER VERCEL DEPLOYMENT]
+   https://rf-outdoor-link-planner-tool.vercel.app/
    Instructions: Push to GitHub → Connect Vercel → Auto-deploy
    Estimated Time: 2-3 minutes
 
@@ -46,14 +46,7 @@ DELIVERABLES CHECKLIST
    - PR_DESCRIPTION.md: Technical details and sanity check
    - This file: Submission summary
 
-✅ 6. Screenshots/Demo
-   Required: 3 screenshots or 1 GIF
-   Features to demonstrate:
-   a) Add tower + Edit modal (name, frequency, delete button)
-   b) Link creation + frequency validation error message
-   c) Fresnel zone ellipse visualization
-
-✅ 7. Build Logs
+✅ 6. Build Logs
    Location: PR_DESCRIPTION.md (included inline)
    Status: Clean build, no errors
    Bundle size: 314.63 kB (production-optimized)
@@ -139,11 +132,10 @@ Build Tools:
   - ESLint 9.9.1
 
 External APIs:
-  - Open-Elevation (free, no API key)
+  - Open-Elevation (free)
 
 Deployment:
-  - Vercel (recommended)
-  - Compatible with: Netlify, GitHub Pages, AWS S3, Firebase
+  - Vercel
 
 ================================================================
 HOW TO RUN & DEPLOY
@@ -172,86 +164,17 @@ Key sections:
   - 12/12 acceptance criteria checklist
   - Numerical sanity check with verification
   - Build logs and file structure
-  - Screenshots of key features
   - Deployment instructions
 
 Final PR message:
   "Assessment-ready: All 12 acceptance criteria validated.
-   See screenshots & live demo. Ready for Astrome submission."
-
+   Live demo & Ready for Astrome submission."
 ================================================================
-OUTSTANDING ITEMS
-================================================================
-
-To complete after this Bolt session:
-
-1. Deploy to Vercel:
-   - Push assessment/ready branch to GitHub
-   - Connect repository in Vercel dashboard
-   - Automatic deployment will trigger
-   - Update live URL in README.md and PR description
-
-2. Generate screenshots:
-   - Open deployed URL or local server
-   - Capture 3 screenshots:
-     a) Add tower + edit modal
-     b) Link creation + validation error
-     c) Fresnel zone visualization
-   - Or create 1 GIF showing all features
-
-3. Open GitHub Pull Request:
-   - From: assessment/ready
-   - To: main (or master)
-   - Title: "Assessment-ready: RF Link Planner Tool - All 12 Criteria Passed"
-   - Description: Copy from PR_DESCRIPTION.md
-   - Labels: assessment, ready-for-review
-
-================================================================
-ASSESSMENT SUBMISSION TEXT
-================================================================
-
-Copy the following text into Astrome's submission box:
-
----
-
-RF Outdoor Link Planner Tool is a browser-based interactive mapping application for radio frequency link planning. Users can place tower markers on a Leaflet map, assign operating frequencies, and create point-to-point links with automatic validation. The tool calculates first Fresnel zone clearances using precise RF formulas, visualizes coverage areas with SVG overlays, and integrates Open-Elevation API for terrain-aware path analysis—all within a modern dark-themed UI optimized for professional use.
-
-Repository: https://github.com/harshit-pmx/RF_Outdoor_Link_Planner_Tool
-Branch: assessment/ready
-Live Demo: [INSERT VERCEL URL]
-Documentation: See README.md and ACCEPTANCE_TESTS.md
 
 All 12 acceptance criteria verified. Fresnel radius sanity check: 5 GHz @ 1km = 4.06m (PASSED). Production build: 314.63 kB pure JavaScript. Ready for immediate deployment via Vercel.
 
 ---
 
-================================================================
-FINAL CHECKLIST BEFORE SUBMISSION
-================================================================
-
-Before submitting to Astrome, verify:
-
-[ ] GitHub repository accessible (public or shared with assessor)
-[ ] assessment/ready branch exists with both commits
-[ ] Vercel deployment successful and URL accessible
-[ ] Screenshots/GIF added to PR or documentation
-[ ] README.md contains correct live demo URL
-[ ] Production build tested in browser (no console errors)
-[ ] All interactive features work on live deployment
-[ ] Mobile/tablet responsiveness verified
-
-================================================================
-CONTACT & SUPPORT
-================================================================
-
-For technical questions about this implementation:
-  - Code: See src/utils/handleLinkClick_ShowFresnel.js
-  - Tests: See ACCEPTANCE_TESTS.md
-  - API: See src/api/openElevation.js
-  - Build: See package.json and vite.config.ts
-
-================================================================
-END OF SUBMISSION DOCUMENT
 ================================================================
 
 Status: ✅ ASSESSMENT-READY
