@@ -142,18 +142,18 @@ console.log('Fresnel Calculation:', {
 
 | # | Criterion | Status | Evidence |
 |---|-----------|--------|----------|
-| 1 | Map & Towers | ✅ PASS | Leaflet renders, click-to-add works |
-| 2 | Tower Popup | ✅ PASS | Modal with name, frequency, save, delete |
-| 3 | Link Creation | ✅ PASS | Only same-frequency towers connect |
-| 4 | Invalid Link | ✅ PASS | Exact error message displayed |
-| 5 | Fresnel Zone | ✅ PASS | SVG ellipse, rotated, translucent glow |
-| 6 | Elevation API | ✅ PASS | openElevation.js with fallback |
-| 7 | Link Tooltips | ✅ PASS | "Distance: X km \| Frequency: Y GHz" |
-| 8 | Delete Tower | ✅ PASS | Removes tower + connected links |
-| 9 | Delete Link | ✅ PASS | Removes link only, towers intact |
-| 10 | Responsive | ✅ PASS | Works desktop/tablet, no overflow |
-| 11 | Console Clean | ✅ PASS | Zero uncaught errors |
-| 12 | Production Build | ✅ PASS | Pure JS, 314.63 kB bundle |
+| 1 | Map & Towers |  PASS | Leaflet renders, click-to-add works |
+| 2 | Tower Popup |  PASS | Modal with name, frequency, save, delete |
+| 3 | Link Creation |  PASS | Only same-frequency towers connect |
+| 4 | Invalid Link |  PASS | Exact error message displayed |
+| 5 | Fresnel Zone |  PASS | SVG ellipse, rotated, translucent glow |
+| 6 | Elevation API |  PASS | openElevation.js with fallback |
+| 7 | Link Tooltips |  PASS | "Distance: X km \| Frequency: Y GHz" |
+| 8 | Delete Tower |  PASS | Removes tower + connected links |
+| 9 | Delete Link |  PASS | Removes link only, towers intact |
+| 10 | Responsive |  PASS | Works desktop/tablet, no overflow |
+| 11 | Console Clean |  PASS | Zero uncaught errors |
+| 12 | Production Build |  PASS | Pure JS, 314.63 kB bundle |
 
 **Overall: 12/12 PASSED (100%)**
 
@@ -162,20 +162,20 @@ console.log('Fresnel Calculation:', {
 ##  7. REQUIRED FILES CHECKLIST
 
 ### Assessment-Mandated Files (Exact Spec)
-- ✅ `src/api/openElevation.js` - API integration with fallback
-- ✅ `src/utils/geo.js` - Haversine distance formula
-- ✅ `src/utils/fresnel.js` - Wavelength & Fresnel calculations
-- ✅ `src/utils/handleLinkClick_ShowFresnel.js` - SVG ellipse visualization
-- ✅ `vercel.json` - Deployment configuration
+-  `src/api/openElevation.js` - API integration with fallback
+-  `src/utils/geo.js` - Haversine distance formula
+-  `src/utils/fresnel.js` - Wavelength & Fresnel calculations
+-  `src/utils/handleLinkClick_ShowFresnel.js` - SVG ellipse visualization
+-  `vercel.json` - Deployment configuration
 
 ### Supporting Code Files
-- ✅ `src/App.tsx` - Main state management
-- ✅ `src/components/MapView.tsx` - Leaflet map
-- ✅ `src/components/EditModal.tsx` - Tower editor
-- ✅ `src/components/ControlPanel.tsx` - Mode buttons
-- ✅ `src/components/Toast.tsx` - Notifications
-- ✅ `src/types/index.ts` - TypeScript interfaces
-- ✅ `src/utils/calculations.ts` - Additional utilities
+-  `src/App.tsx` - Main state management
+-  `src/components/MapView.tsx` - Leaflet map
+-  `src/components/EditModal.tsx` - Tower editor
+-  `src/components/ControlPanel.tsx` - Mode buttons
+-  `src/components/Toast.tsx` - Notifications
+-  `src/types/index.ts` - TypeScript interfaces
+-  `src/utils/calculations.ts` - Additional utilities
 
 ---
 
