@@ -6,61 +6,37 @@
 
 A professional-grade browser-based RF link planning tool with interactive mapping, frequency validation, and Fresnel zone visualization.
 
-## 🎯 Product Summary
+##  Product Summary
 
-**RF Outdoor Link Planner Tool** is a browser-based interactive mapping application for radio frequency link planning. Users can place tower markers on a Leaflet map, assign operating frequencies, and create point-to-point links with automatic validation. The tool calculates first Fresnel zone clearances using precise RF formulas, visualizes coverage areas with SVG overlays, and integrates Open-Elevation API for terrain-aware path analysis—all within a modern dark-themed UI optimized for professional use.
+**RF Outdoor Link Planner Tool** is a browser-based interactive mapping application for radio frequency link planning. Users can place tower markers on a Leaflet map, assign operating frequencies, and create point-to-point links with automatic validation. The tool calculates first Fresnel zone clearances using precise RF formulas, visualizes coverage areas with SVG overlays, and integrates Open-Elevation API for terrain-aware path analysis all within a modern dark-themed UI optimized for professional use.
 
-## ✨ Key Features
+##  Key Features
 
-### 📍 Interactive Map & Towers
+###  Interactive Map & Towers
 - **Click-to-Add:** Place tower markers anywhere on the map
 - **Visual Indicators:** Color-coded by frequency (blue, green, amber, red, purple)
 - **Editable Properties:** Change tower name and operating frequency anytime
 - **Glow Effects:** Selected towers highlight with increased glow
 
-### 🔗 Point-to-Point Links
+###  Point-to-Point Links
 - **Frequency Validation:** Only towers with matching frequencies can link
 - **Automatic Distance:** Haversine formula for accurate Earth-curvature calculations
 - **Hover Tooltips:** View distance (km) and frequency (GHz) on hover
 - **Visual Feedback:** Neon cyan polylines with smooth hover highlights
 
-### 📡 Fresnel Zone Analysis
+### Fresnel Zone Analysis
 - **Precise Calculations:** First Fresnel zone using `r = sqrt((λ * d1 * d2) / (d1 + d2))`
 - **SVG Visualization:** Translucent ellipse rotated to match link bearing
 - **Dynamic Scaling:** Ellipse adjusts with map zoom for accuracy
 - **Terrain Data:** Integrates Open-Elevation API for elevation profiles
 
-### 🎨 Professional UI/UX
+###  Professional UI/UX
 - **Dark Galaxy Theme:** Deep space aesthetic with glassmorphism
 - **Floating Controls:** Intuitive mode buttons (Add, Edit, Link, Delete)
 - **Toast Notifications:** Real-time feedback for all actions
 - **Responsive Design:** Works on desktop and tablet (touch-friendly)
 
-## 🚀 Quick Start
-
-### Installation
-```bash
-npm install
-```
-
-### Development Server
-```bash
-npm run dev
-# Open http://localhost:5173
-```
-
-### Production Build
-```bash
-npm run build
-# Output: dist/ folder (pure JavaScript)
-```
-
-### Preview Production Build
-```bash
-npm run preview
-```
-
-## 📖 Usage Guide
+##  Usage Guide
 
 ### Adding Towers
 1. Click **"Add Tower"** button in control panel
@@ -80,7 +56,7 @@ npm run preview
 1. Click **"Draw Link"** button
 2. Click first tower (Tower A)
 3. Click second tower (Tower B)
-4. If frequencies match → Link created ✅
+4. If frequencies match → Link created 
 5. If frequencies differ → Error message ❌
 
 ### Viewing Fresnel Zones
@@ -94,7 +70,7 @@ npm run preview
 - **Delete Tower:** Also available in edit modal (removes all connected links)
 - **Delete Link:** Removes only the link, leaves towers intact
 
-## 🔬 Technical Implementation
+##  Technical Implementation
 
 ### RF Calculations
 
@@ -140,17 +116,17 @@ src/
 - **TailwindCSS 3.4** - Utility-first styling
 - **Open-Elevation API** - Free terrain data (no API key)
 
-## 🧪 Testing & Verification
+##  Testing & Verification
 
 ### Acceptance Criteria
-✅ All 12 acceptance criteria verified (see `ACCEPTANCE_TESTS.md`)
+ All 12 acceptance criteria verified (see `ACCEPTANCE_TESTS.md`)
 
 ### Sanity Check: 5 GHz @ 1 km
 ```javascript
 // Two towers ~1 km apart at 5 GHz
 Expected Fresnel Radius: ~4.06 meters
 Actual Implementation: 4.06 meters
-Verification: PASSED ✅
+Verification: PASSED 
 ```
 
 ### Build Verification
@@ -159,12 +135,11 @@ $ npm run build
 dist/index.html                   0.47 kB │ gzip:  0.30 kB
 dist/assets/index-DXVrLyAB.css   27.09 kB │ gzip:  9.34 kB
 dist/assets/index-CtAN6LeZ.js   314.63 kB │ gzip: 96.61 kB
-✓ built in 4.02s
 ```
 
-## 🌐 Deployment
+##  Deployment
 
-### Vercel (Recommended)
+### Vercel 
 ```bash
 # Install Vercel CLI
 npm install -g vercel
@@ -192,7 +167,7 @@ The included `vercel.json` configures:
 - SPA rewrites for client-side routing
 - Automatic build command: `npm run build`
 
-## 📝 API Usage
+##  API Usage
 
 ### Open-Elevation API
 - **Endpoint:** `https://api.open-elevation.com/api/v1/lookup`
@@ -203,7 +178,7 @@ The included `vercel.json` configures:
   ```
 - **Fallback:** Returns elevation=0 if API fails (graceful degradation)
 
-## 🎨 Theme Customization
+##  Theme Customization
 
 ### Color Scheme
 ```css
@@ -222,7 +197,7 @@ Fill:       rgba(36, 199, 255, 0.08)
 Stroke:     rgba(36, 199, 255, 0.7)
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Map Not Loading
 - Check internet connection (Leaflet tiles from CDN)
@@ -244,20 +219,10 @@ rm -rf dist
 npm run build
 ```
 
-## 📄 License
+## Contributing
 
-MIT License - Free for commercial and non-commercial use
-
-## 🤝 Contributing
-
-This is an assessment project for Astrome Technologies. For production use, please fork and modify as needed.
-
-## 📞 Support
-
-- **Documentation:** See `ACCEPTANCE_TESTS.md` for detailed test results
-- **Code Examples:** Check `src/utils/handleLinkClick_ShowFresnel.js` for SVG visualization
-- **API Reference:** See `src/api/openElevation.js` for elevation integration
+This is an assessment project for Astrome Technologies.
 
 ---
 
-**Built with precision for RF link planning professionals** 🛰️
+**Built with precision for RF link planning professionals** 
