@@ -241,10 +241,3 @@ Response: {
 - **Open-Elevation API** - Terrain data (free, no key required)
 
 ---
-
-## 📞 Support
-For questions about this implementation, refer to:
-- `ACCEPTANCE_TESTS.md` - Detailed test results
-- `README.md` - Setup and usage instructions
-- `src/api/openElevation.js` - API integration example
-- `src/utils/handleLinkClick_ShowFresnel.js` - Fresnel visualization logic
