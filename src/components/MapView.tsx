@@ -81,7 +81,8 @@ export function MapView({
           >
             <Popup>
               <div className="text-slate-900">
-                <p className="font-bold">Tower {tower.id}</p>
+                <p className="font-bold">{tower.name}</p>
+                <p className="text-sm">ID: {tower.id}</p>
                 <p className="text-sm">Frequency: {tower.frequency} GHz</p>
                 <p className="text-sm">
                   Location: {tower.lat.toFixed(4)}, {tower.lng.toFixed(4)}
@@ -122,8 +123,7 @@ export function MapView({
             <Popup>
               <div className="text-slate-900">
                 <p className="font-bold">Link {link.id}</p>
-                <p className="text-sm">Distance: {link.distance.toFixed(2)} km</p>
-                <p className="text-sm">Frequency: {link.frequency} GHz</p>
+                <p className="text-sm">Distance: {link.distance.toFixed(2)} km | Frequency: {link.frequency} GHz</p>
               </div>
             </Popup>
           </Polyline>

@@ -1,26 +1,34 @@
-import { X } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Tower } from '../types';
 
 interface EditModalProps {
   tower: Tower;
-  onSave: (towerId: string, frequency: number) => void;
+  onSave: (towerId: string, name: string, frequency: number) => void;
+  onDelete: (towerId: string) => void;
   onClose: () => void;
 }
 
-export function EditModal({ tower, onSave, onClose }: EditModalProps) {
+export function EditModal({ tower, onSave, onDelete, onClose }: EditModalProps) {
+  const [name, setName] = useState(tower.name);
   const [frequency, setFrequency] = useState(tower.frequency.toString());
 
   useEffect(() => {
+    setName(tower.name);
     setFrequency(tower.frequency.toString());
   }, [tower]);
 
   const handleSave = () => {
     const freq = parseFloat(frequency);
-    if (isNaN(freq) || freq <= 0) {
+    if (isNaN(freq) || freq <= 0 || !name.trim()) {
       return;
     }
-    onSave(tower.id, freq);
+    onSave(tower.id, name.trim(), freq);
+    onClose();
+  };
+
+  const handleDelete = () => {
+    onDelete(tower.id);
     onClose();
   };
 
@@ -37,7 +45,14 @@ export function EditModal({ tower, onSave, onClose }: EditModalProps) {
           </button>
         </div>
         <div className="mb-4">
-          <label className="block text-cyan-200 text-sm mb-2">Tower ID: {tower.id}</label>
+          <label className="block text-cyan-200 text-sm mb-2">Tower ID</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g., Tower A"
+            className="w-full px-3 py-2 mb-4 bg-slate-800 border border-cyan-500/30 rounded-lg text-cyan-100 focus:outline-none focus:border-cyan-500"
+          />
           <label className="block text-cyan-200 text-sm mb-2">Frequency (GHz)</label>
           <input
             type="number"
@@ -45,11 +60,12 @@ export function EditModal({ tower, onSave, onClose }: EditModalProps) {
             onChange={(e) => setFrequency(e.target.value)}
             step="0.1"
             min="0.1"
+            placeholder="e.g., 5"
             className="w-full px-3 py-2 bg-slate-800 border border-cyan-500/30 rounded-lg text-cyan-100 focus:outline-none focus:border-cyan-500"
             autoFocus
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-3">
           <button
             onClick={handleSave}
             className="flex-1 bg-cyan-500 text-slate-900 py-2 rounded-lg font-medium hover:bg-cyan-400 transition-colors"
@@ -63,6 +79,13 @@ export function EditModal({ tower, onSave, onClose }: EditModalProps) {
             Cancel
           </button>
         </div>
+        <button
+          onClick={handleDelete}
+          className="w-full bg-red-600/20 border border-red-500/50 text-red-400 py-2 rounded-lg font-medium hover:bg-red-600/30 transition-colors flex items-center justify-center gap-2"
+        >
+          <Trash2 className="w-4 h-4" />
+          Delete Tower
+        </button>
       </div>
     </div>
   );

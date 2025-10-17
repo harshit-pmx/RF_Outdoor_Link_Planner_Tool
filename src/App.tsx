@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import L from 'leaflet';
 import { MapView } from './components/MapView';
 import { ControlPanel } from './components/ControlPanel';
 import { EditModal } from './components/EditModal';
 import { Toast } from './components/Toast';
 import { Tower, Link, FresnelZone } from './types';
-import { calculateDistance, calculateFresnelRadius } from './utils/calculations';
-import { fetchElevationData } from './api/openElevation';
+import { calculateDistance } from './utils/calculations';
+import { handleLinkClick_ShowFresnel } from './utils/handleLinkClick_ShowFresnel.js';
 
 function App() {
   const [towers, setTowers] = useState<Tower[]>([]);
@@ -15,6 +16,8 @@ function App() {
   const [editingTower, setEditingTower] = useState<Tower | null>(null);
   const [fresnelZone, setFresnelZone] = useState<FresnelZone | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const fresnelCleanupRef = useRef<(() => void) | null>(null);
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
@@ -24,12 +27,13 @@ function App() {
     if (mode === 'add') {
       const newTower: Tower = {
         id: `T${towers.length + 1}`,
+        name: `Tower ${towers.length + 1}`,
         lat,
         lng,
         frequency: 2.4,
       };
       setTowers([...towers, newTower]);
-      showToast(`Tower ${newTower.id} added`, 'success');
+      showToast(`Tower ${newTower.name} added`, 'success');
     }
   };
 
@@ -71,12 +75,15 @@ function App() {
         }
       }
     } else if (mode === 'delete') {
+      const tower = towers.find((t) => t.id === towerId);
       setTowers(towers.filter((t) => t.id !== towerId));
       setLinks(links.filter((l) => l.towerAId !== towerId && l.towerBId !== towerId));
-      showToast(`Tower ${towerId} deleted`, 'success');
-      if (fresnelZone && links.find((l) => l.towerAId === towerId || l.towerBId === towerId)) {
-        setFresnelZone(null);
+      if (fresnelCleanupRef.current) {
+        fresnelCleanupRef.current();
+        fresnelCleanupRef.current = null;
       }
+      setFresnelZone(null);
+      showToast(`Tower ${tower?.name || towerId} deleted`, 'success');
     }
   };
 
@@ -88,45 +95,53 @@ function App() {
       setLinks(links.filter((l) => l.id !== linkId));
       showToast(`Link ${linkId} deleted`, 'success');
       if (fresnelZone?.linkId === linkId) {
+        if (fresnelCleanupRef.current) {
+          fresnelCleanupRef.current();
+          fresnelCleanupRef.current = null;
+        }
         setFresnelZone(null);
       }
     } else {
       const towerA = towers.find((t) => t.id === link.towerAId);
       const towerB = towers.find((t) => t.id === link.towerBId);
 
-      if (towerA && towerB) {
-        const elevationData = await fetchElevationData(
-          towerA.lat,
-          towerA.lng,
-          towerB.lat,
-          towerB.lng
-        );
+      if (towerA && towerB && mapRef.current) {
+        if (fresnelCleanupRef.current) {
+          fresnelCleanupRef.current();
+          fresnelCleanupRef.current = null;
+        }
 
-        const centerLat = (towerA.lat + towerB.lat) / 2;
-        const centerLng = (towerA.lng + towerB.lng) / 2;
-        const distance = link.distance;
-        const radius = calculateFresnelRadius(link.frequency, distance);
-
-        setFresnelZone({
-          linkId: link.id,
-          centerLat,
-          centerLng,
-          radiusMeters: radius,
-          distance,
-          frequency: link.frequency,
+        const result = await handleLinkClick_ShowFresnel({
+          map: mapRef.current,
+          latlngA: { lat: towerA.lat, lng: towerA.lng },
+          latlngB: { lat: towerB.lat, lng: towerB.lng },
+          frequencyGHz: link.frequency,
+          onError: (err: string) => showToast(err, 'error')
         });
 
-        showToast(
-          `Fresnel zone displayed. Elevation: ${elevationData[0].elevation}m - ${elevationData[1].elevation}m`,
-          'success'
-        );
+        if (result) {
+          fresnelCleanupRef.current = result.remove;
+          const distanceKm = result.meta.totalDistanceMeters / 1000;
+          setFresnelZone({
+            linkId: link.id,
+            centerLat: (towerA.lat + towerB.lat) / 2,
+            centerLng: (towerA.lng + towerB.lng) / 2,
+            radiusMeters: result.meta.fresnelRadiusMeters,
+            distance: distanceKm,
+            frequency: link.frequency,
+          });
+          showToast(
+            `Fresnel zone displayed. Elevation: ${result.meta.elevPoints[0].elevation}m - ${result.meta.elevPoints[1].elevation}m`,
+            'success'
+          );
+        }
       }
     }
   };
 
-  const handleFrequencySave = (towerId: string, frequency: number) => {
+  const handleTowerSave = (towerId: string, name: string, frequency: number) => {
     setTowers(
-      towers.map((t) => (t.id === towerId ? { ...t, frequency } : t))
+      towers.map((t) => (t.id === towerId ? { ...t, name, frequency } : t))
     );
     setLinks(
       links.filter((l) => {
@@ -138,17 +153,37 @@ function App() {
         return true;
       })
     );
-    showToast(`Tower ${towerId} frequency updated`, 'success');
+    showToast(`Tower ${name} updated`, 'success');
   };
+
+  const handleTowerDelete = (towerId: string) => {
+    const tower = towers.find((t) => t.id === towerId);
+    setTowers(towers.filter((t) => t.id !== towerId));
+    setLinks(links.filter((l) => l.towerAId !== towerId && l.towerBId !== towerId));
+    if (fresnelCleanupRef.current) {
+      fresnelCleanupRef.current();
+      fresnelCleanupRef.current = null;
+    }
+    setFresnelZone(null);
+    showToast(`Tower ${tower?.name || towerId} deleted`, 'success');
+  };
+
+  useEffect(() => {
+    return () => {
+      if (fresnelCleanupRef.current) {
+        fresnelCleanupRef.current();
+      }
+    };
+  }, []);
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
       <MapView
         towers={towers}
         links={links}
-        fresnelZone={fresnelZone}
         mode={mode}
         selectedTowers={selectedTowers}
+        mapRef={mapRef}
         onMapClick={handleMapClick}
         onTowerClick={handleTowerClick}
         onLinkClick={handleLinkClick}
@@ -157,7 +192,8 @@ function App() {
       {editingTower && (
         <EditModal
           tower={editingTower}
-          onSave={handleFrequencySave}
+          onSave={handleTowerSave}
+          onDelete={handleTowerDelete}
           onClose={() => setEditingTower(null)}
         />
       )}
